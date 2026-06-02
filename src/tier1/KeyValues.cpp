@@ -2081,6 +2081,9 @@ bool EvaluateConditional( const char *str )
 
 	if ( Q_stristr( str, "$POSIX" ) )
 		return IsPosix() ^ bNot;
+
+	if (Q_stristr(str, "$DECK"))
+		return false ^ bNot;//figure out proper support if you'd like. this just allows us to parse the files correctly.
 	
 	return false;
 }
