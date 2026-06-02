@@ -61,14 +61,13 @@ CON_COMMAND( ai_debug_node_connect, "Debug the attempted connection between two 
 }
 
 //-----------------------------------------------------------------------------
-// This CVAR allows level designers to override the building
-// of node graphs due to date conflicts with the BSP and AIN 
-// files. That way they don't have to wait for the node graph
-// to rebuild following small only-ents changes. This CVAR
-// always defaults to 0 and must be set at the command
-// line to properly override the node graph building.
+//This repo keeps a copy of the node graphs for Valve maps. It has been seen,
+//though, that *sometimes* this is not enough and the mod will still rebuild
+//them. Changing this default to 1 ensures the problem is fixed.
+//The mod will never load the original AIN files (not clear why) which
+//would make the maps load without nodes had we not supplied copies
 
-ConVar g_ai_norebuildgraph( "ai_norebuildgraph", "0" );
+ConVar g_ai_norebuildgraph( "ai_norebuildgraph", "1" );
 
 
 //-----------------------------------------------------------------------------

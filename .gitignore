@@ -67,7 +67,6 @@ sound.cache
 stats.txt
 voice_ban.dt
 ep1_gamestats.dat
-*.ain
 
 # shader files
 *.tmp
