@@ -167,9 +167,7 @@ bool Flashlight_UseLegacyVersion( void )
 		if ( UTIL_GetModDir( modDir, sizeof(modDir) ) == false )
 			return false;
 
-		g_bUseLegacyFlashlight = ( !Q_strcmp( modDir, "hl2" ) ||
-					   !Q_strcmp( modDir, "episodic" ) ||
-					   !Q_strcmp( modDir, "lostcoast" ) || !Q_strcmp( modDir, "hl1" ));
+		g_bUseLegacyFlashlight = !Q_strcmp(modDir, "mod_hl2") || !Q_strcmp(modDir, "mod_episodic");
 
 		g_bCacheLegacyFlashlightStatus = false;
 	}

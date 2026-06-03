@@ -79,22 +79,22 @@ $fadeout 1.5
 
 GAMEOVER_ALLY
 {
-#HL2_GameOver_Ally
+#mod_HL2_GameOver_Ally
 }
 
 GAMEOVER_OBJECT
 {
-#HL2_GameOver_Object
+#mod_HL2_GameOver_Object
 }
 
 GAMEOVER_TIMER
 {
-#HL2_GameOver_Timer
+#mod_HL2_GameOver_Timer
 }
 
 GAMEOVER_STUCK
 {
-#HL2_GameOver_Stuck
+#mod_HL2_GameOver_Stuck
 }
 
 
@@ -110,73 +110,73 @@ $position -1 0.58
 
 CHAPTER1_TITLE
 {
-#HL2_Chapter1_Title
+#mod_HL2_Chapter1_Title
 }
 
 CHAPTER2_TITLE
 {
-#HL2_Chapter2_Title
+#mod_HL2_Chapter2_Title
 }
 
 CHAPTER3_TITLE
 {
-#HL2_Chapter3_Title
+#mod_HL2_Chapter3_Title
 }
 
 CHAPTER4_TITLE
 {
-#HL2_Chapter4_Title
+#mod_HL2_Chapter4_Title
 }
 
 CHAPTER5_TITLE
 {
-#HL2_Chapter5_Title
+#mod_HL2_Chapter5_Title
 }
 
 CHAPTER6_TITLE
 {
-#HL2_Chapter6_Title
+#mod_HL2_Chapter6_Title
 }
 
 CHAPTER7_TITLE
 {
-#HL2_Chapter7_Title
+#mod_HL2_Chapter7_Title
 }
 
 CHAPTER8_TITLE
 {
-#HL2_Chapter8_Title
+#mod_HL2_Chapter8_Title
 }
 
 CHAPTER9_TITLE
 {
-#HL2_Chapter9_Title
+#mod_HL2_Chapter9_Title
 }
 
 CHAPTER9A_TITLE
 {
-#HL2_Chapter9a_Title
+#mod_HL2_Chapter9a_Title
 }
 
 
 CHAPTER10_TITLE
 {
-#HL2_Chapter10_Title
+#mod_HL2_Chapter10_Title
 }
 
 CHAPTER11_TITLE
 {
-#HL2_Chapter11_Title
+#mod_HL2_Chapter11_Title
 }
 
 CHAPTER12_TITLE
 {
-#HL2_Chapter12_Title
+#mod_HL2_Chapter12_Title
 }
 
 CHAPTER13_TITLE
 {
-#HL2_Chapter13_Title
+#mod_HL2_Chapter13_Title
 }
 
 
