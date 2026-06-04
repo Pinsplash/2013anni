@@ -184,6 +184,8 @@ BEGIN_RECV_TABLE_NOBASE( CPlayerLocalData, DT_Local )
 	RecvPropVector( RECVINFO( m_skybox3d.fog.dirPrimary ) ),
 	RecvPropInt( RECVINFO( m_skybox3d.fog.colorPrimary ) ),
 	RecvPropInt( RECVINFO( m_skybox3d.fog.colorSecondary ) ),
+	RecvPropInt( RECVINFO( m_skybox3d.fog.colorPrimaryHDR ) ),
+	RecvPropInt( RECVINFO( m_skybox3d.fog.colorSecondaryHDR ) ),
 	RecvPropFloat( RECVINFO( m_skybox3d.fog.start ) ),
 	RecvPropFloat( RECVINFO( m_skybox3d.fog.end ) ),
 	RecvPropFloat( RECVINFO( m_skybox3d.fog.maxdensity ) ),
@@ -2703,6 +2705,7 @@ void C_BasePlayer::FogControllerChanged( bool bSnap )
 		
 
 		// Setup the fog color transition.
+		//not sure if i should copy HDR variables here. this is already not copying the secondary color, so maybe it's not important?
 		m_Local.m_PlayerFog.m_OldColor = m_CurrentFog.colorPrimary;
 		m_Local.m_PlayerFog.m_flOldStart = m_CurrentFog.start;
 		m_Local.m_PlayerFog.m_flOldEnd = m_CurrentFog.end;
@@ -2768,6 +2771,7 @@ void C_BasePlayer::UpdateFogBlend( void )
 	if ( m_Local.m_PlayerFog.m_flTransitionTime != -1 )
 	{
 		float flTimeDelta = gpGlobals->curtime - m_Local.m_PlayerFog.m_flTransitionTime;
+		//again, if this code is important, where are the references to the secondary color?
 		if ( flTimeDelta < m_CurrentFog.duration )
 		{
 			float flScale = flTimeDelta / m_CurrentFog.duration;
