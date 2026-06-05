@@ -6,3 +6,6 @@ The gameinfo.txt changes use relative paths to find the current HL2 folder to ge
 
 Things to know:
 * Some behavior depends on the mod folder name. Look in the functions `Flashlight_UseLegacyVersion`, `UpdateChapterRestrictions`, `UpdateRichPresence`, `CNPC_Vortigaunt::Precache`, the `gTitleComments` array, the localization files in the `resource` folders, and `titles.txt` in the `scripts` folders.
+* The following additional patches have been applied:
+  * Implemented HDR override keyvalues for fog colors in `env_fog_controller` and `sky_camera`. Maps that use these keyvalues will look very different if the keyvalues aren't implemented.
+  * Fixed dropship container gun not turning.
