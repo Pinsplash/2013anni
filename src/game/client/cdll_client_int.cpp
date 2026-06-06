@@ -1123,6 +1123,17 @@ bool CHLClient::ReplayPostInit()
 #endif
 }
 
+CON_COMMAND(whereis, "print file location")
+{
+	if (args.ArgC() > 1)
+	{
+		Msg("trying to find %s\n", args[1]);
+		char szScratchFileName[MAX_PATH];
+		g_pFullFileSystem->RelativePathToFullPath(args[1], "GAME", szScratchFileName, sizeof(szScratchFileName));
+		Msg("is it %s\n", szScratchFileName);
+	}
+}
+
 //-----------------------------------------------------------------------------
 // Purpose: Called after client & server DLL are loaded and all systems initialized
 //-----------------------------------------------------------------------------
