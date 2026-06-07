@@ -5,6 +5,9 @@ This repo does not give feature parity with current HL2. These are just the mini
 The gameinfo.txt changes use relative paths to find the current HL2 folder to get its maps. (The Singleplayer SDK doesn't have a way to find the folders by appid.) Users have to either install Source SDK Base 2013 Singleplayer in the same Steam directory as Half-Life 2, or put the mod in the `sourcemods` folder of the same Steam directory as Half-Life 2.
 
 Things to know:
-* Some behavior depends on the mod folder name. Look in the functions `Flashlight_UseLegacyVersion`, `UpdateChapterRestrictions`, `UpdateRichPresence`, `CNPC_Vortigaunt::Precache`, the `gTitleComments` array, the localization files in the `resource` folders, and `titles.txt` in the `scripts` folders.
+* Some behavior depends on the mod folder name. Look for references to `mod_hl2`, `mod_episodic`, and `mod_ep2` in the functions `Flashlight_UseLegacyVersion`, `UpdateChapterRestrictions`, `UpdateRichPresence`, `CNPC_Vortigaunt::Precache`, the `gTitleComments` array, the localization files in the `resource` folders, titles.txt in the `scripts` folders, and gameinfo.txt.
+* The gameinfo.txt setup has one side effect in making a `common` folder in the repo's root folder containing nothing but a harmless `sound.cache`.
+* The Episode One mod expects the base HL2 mod to be installed, and the Episode Two mod expects the Ep1 and HL2 mods to be installed. (In the same `sourcemods` folder.)
+* The Episodic project is still used for both Episodes. To make it open Episode One, `-game` has to be a path to the `mod_episodic` folder, and vice versa for `mod_ep2`.
 * The following additional patches have been applied:
   * Fixed dropship container gun not turning.
