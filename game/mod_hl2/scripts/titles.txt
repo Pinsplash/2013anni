@@ -79,22 +79,22 @@ $fadeout 1.5
 
 GAMEOVER_ALLY
 {
-#mod_HL2_GameOver_Ally
+#HL2_GameOver_Ally
 }
 
 GAMEOVER_OBJECT
 {
-#mod_HL2_GameOver_Object
+#HL2_GameOver_Object
 }
 
 GAMEOVER_TIMER
 {
-#mod_HL2_GameOver_Timer
+#HL2_GameOver_Timer
 }
 
 GAMEOVER_STUCK
 {
-#mod_HL2_GameOver_Stuck
+#HL2_GameOver_Stuck
 }
 
 
