@@ -1,0 +1,73 @@
+"GameInfo"
+{
+	game 		"My First Episode Two Mod"
+	title 		"HALF-LIFE'"
+	title2		"== episode two =="
+	supportsvr	1
+
+	type		singleplayer_only
+
+	FileSystem
+	{
+		SteamAppId				243730
+		SearchPaths
+		{
+			//mod folder
+			//always prioritize custom folder
+			game+mod				|gameinfo_path|custom/*
+			game+mod				|gameinfo_path|../mod_episodic/custom/*
+			game+mod				|gameinfo_path|../mod_hl2/custom/*
+			game+mod+mod_write+default_write_path	|gameinfo_path|.
+			//ep2 gets binaries from episodic folder
+			gamebin					|gameinfo_path|../mod_episodic/bin
+			//use 'game' instead of 'game+mod' to avoid showing hl2 saves in ep1's 'LOAD GAME' menu
+			game					|gameinfo_path|../mod_episodic
+			game					|gameinfo_path|../mod_hl2
+			
+			//current hl2 files - try relative to sdk base's exe
+			game					"../Half-Life 2/ep2"
+			game					"../Half-Life 2/ep2/ep2_sound_vo_english.vpk"
+			game					"../Half-Life 2/ep2/ep2_pak.vpk"
+			game					"../Half-Life 2/episodic"
+			game					"../Half-Life 2/episodic/ep1_sound_vo_english.vpk"
+			game					"../Half-Life 2/episodic/ep1_pak.vpk"
+			game					"../Half-Life 2/hl2"
+			game_lv					"../Half-Life 2/hl2/hl2_lv.vpk"
+			game					"../Half-Life 2/hl2/hl2_textures.vpk"
+			game					"../Half-Life 2/hl2/hl2_sound_vo_english.vpk"
+			game					"../Half-Life 2/hl2/hl2_sound_misc.vpk"
+			game					"../Half-Life 2/hl2/hl2_misc.vpk"
+			platform				"../Half-Life 2/platform/platform_misc.vpk"
+			
+			//current hl2 files - try relative to mod folder
+			game					"|gameinfo_path|../../common/Half-Life 2/ep2"
+			game					"|gameinfo_path|../../common/Half-Life 2/ep2/ep2_sound_vo_english.vpk"
+			game					"|gameinfo_path|../../common/Half-Life 2/ep2/ep2_pak.vpk"
+			game					"|gameinfo_path|../../common/Half-Life 2/episodic"
+			game					"|gameinfo_path|../../common/Half-Life 2/episodic/ep1_sound_vo_english.vpk"
+			game					"|gameinfo_path|../../common/Half-Life 2/episodic/ep1_pak.vpk"
+			game					"|gameinfo_path|../../common/Half-Life 2/hl2"
+			game_lv					"|gameinfo_path|../../common/Half-Life 2/hl2/hl2_lv.vpk"
+			game					"|gameinfo_path|../../common/Half-Life 2/hl2/hl2_textures.vpk"
+			game					"|gameinfo_path|../../common/Half-Life 2/hl2/hl2_sound_vo_english.vpk"
+			game					"|gameinfo_path|../../common/Half-Life 2/hl2/hl2_sound_misc.vpk"
+			game					"|gameinfo_path|../../common/Half-Life 2/hl2/hl2_misc.vpk"
+			platform				"|gameinfo_path|../../common/Half-Life 2/platform/platform_misc.vpk"
+			
+			//just in the unlikely case current hl2 doesn't have something, pull it from sdk base
+			game+game_write				ep2
+			game					ep2/ep2_sound_vo_english.vpk
+			game					ep2/ep2_pak.vpk
+			game					episodic
+			game					episodic/ep1_sound_vo_english.vpk
+			game					episodic/ep1_pak.vpk
+			game					hl2
+			game_lv					hl2/hl2_lv.vpk
+			game					hl2/hl2_textures.vpk
+			game					hl2/hl2_sound_vo_english.vpk
+			game					hl2/hl2_sound_misc.vpk
+			game					hl2/hl2_misc.vpk
+			platform				platform/platform_misc.vpk
+		}
+	}
+}
