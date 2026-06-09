@@ -11,3 +11,4 @@ Things to know:
 * The Episodic project is still used for both Episodes. To make it open Episode One, `-game` has to be a path to the `mod_episodic` folder, and vice versa for `mod_ep2`.
 * The following additional patches have been applied:
   * Fixed dropship container gun not turning.
+  * Fixed screen flashing from all damage after being hit by `DMG_ACID` damage once.
