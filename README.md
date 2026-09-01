@@ -15,6 +15,8 @@ Things to know:
   * Fixed screen flashing from all damage after being hit by `DMG_ACID` damage once.
 * Planned additions:
   * Fix RPG AI trace bug. (Convar)
+  * Allow holding jump button. (Convar)
   * Per-map CFG files like in TF2.
   * Reduce references to mod folder names.
+  * Repurpose hl2_episodic convar to indicate which of the three mods is being run.
   * Consolidate HL2/Episodic into one project.
