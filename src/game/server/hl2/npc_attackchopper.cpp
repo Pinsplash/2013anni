@@ -157,6 +157,8 @@ ConVar	g_helicopter_bullrush_mega_bomb_health( "g_helicopter_bullrush_mega_bomb_
 
 ConVar	g_helicopter_bomb_danger_radius( "g_helicopter_bomb_danger_radius", "120" );
 
+extern ConVar mod_running;
+
 Activity ACT_HELICOPTER_DROP_BOMB;
 Activity ACT_HELICOPTER_CRASHING;
 
@@ -2047,7 +2049,7 @@ void CNPC_AttackHelicopter::ShootAtVehicle( const Vector &vBasePos, const Vector
 	DoMuzzleFlash();
 
 	// Do special code against episodic drivers
-	if ( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		Vector vecVelocity;
 		GetEnemyVehicle()->GetVelocity( &vecVelocity, NULL );
@@ -3651,7 +3653,7 @@ void Chopper_BecomeChunks( CBaseEntity *pChopper )
 
 	Vector vecRight(0,0,0);
 
-	if( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		// We need to get a right hand vector to toss the cockpit and tail pieces
 		// so their motion looks like a continuation of the tailspin animation
@@ -4225,7 +4227,7 @@ void CNPC_AttackHelicopter::UpdateFacingDirection( const Vector &vecActualDesire
 	{
 		if ( !IsLeading() )
 		{
-			if( IsCarpetBombing() && hl2_episodic.GetBool() )
+			if (IsCarpetBombing() && mod_running.GetInt())
 			{
 				m_vecDesiredFaceDir = vecActualDesiredPosition - GetAbsOrigin();
 			}
@@ -5039,7 +5041,7 @@ void CGrenadeHelicopter::Spawn( void )
 	m_flLifetime = BOMB_LIFETIME * 2.0;
 #endif // HL2_EPISODIC
 
-	if ( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		// Disallow this, we'd rather deal with them as physobjects
 		m_takedamage = DAMAGE_NO;
@@ -5058,7 +5060,7 @@ void CGrenadeHelicopter::Spawn( void )
 
 	g_pNotify->AddEntity( this, this );
 
-	if( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		SetContextThink( &CGrenadeHelicopter::AnimateThink, gpGlobals->curtime, s_pAnimateThinkContext );
 	}
@@ -5116,8 +5118,8 @@ void CGrenadeHelicopter::BecomeActive()
 	bool bMegaBomb = HasSpawnFlags(SF_GRENADE_HELICOPTER_MEGABOMB);
 
 	SetThink( &CGrenadeHelicopter::ExplodeThink );
-	
-	if ( hl2_episodic.GetBool() )
+
+	if (mod_running.GetInt())
 	{
 		if ( HasSpawnFlags( SF_HELICOPTER_GRENADE_DUD ) == false )
 		{
@@ -5310,7 +5312,7 @@ void CGrenadeHelicopter::VPhysicsCollision( int index, gamevcollisionevent_t *pE
 #endif
 	
 
-	if( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		float flImpactSpeed = pEvent->preVelocity->Length();
 		if( flImpactSpeed > 400.0f && pEvent->pEntities[ 1 ]->IsWorld() )
@@ -5454,7 +5456,7 @@ void CGrenadeHelicopter::ExplodeConcussion( CBaseEntity *pOther )
 		if ( pOther->IsWorld() )
 			return;
 
-		if ( hl2_episodic.GetBool() )
+		if (mod_running.GetInt())
 		{
 			// Don't hit anything other than vehicles
 			if ( pOther->GetCollisionGroup() != COLLISION_GROUP_VEHICLE )

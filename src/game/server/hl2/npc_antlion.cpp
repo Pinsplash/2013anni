@@ -71,6 +71,8 @@ ConVar g_debug_antlion_worker( "g_debug_antlion_worker", "0" );
 
 extern ConVar bugbait_radius;
 
+extern ConVar mod_running;
+
 int AE_ANTLION_WALK_FOOTSTEP;
 int AE_ANTLION_MELEE_HIT1;
 int AE_ANTLION_MELEE_HIT2;
@@ -2418,7 +2420,7 @@ int CNPC_Antlion::SelectSchedule( void )
 	case NPC_STATE_COMBAT:
 		{
 			// Worker-only AI
-			if ( hl2_episodic.GetBool() && IsWorker() )
+			if (mod_running.GetInt() && IsWorker())
 			{
 				// Melee attack if we can
 				if ( HasCondition( COND_CAN_MELEE_ATTACK1 ) )
@@ -2562,7 +2564,7 @@ int CNPC_Antlion::OnTakeDamage_Alive( const CTakeDamageInfo &info )
 {
 	CTakeDamageInfo newInfo = info;
 
-	if( hl2_episodic.GetBool() && antlion_easycrush.GetBool() )
+	if (mod_running.GetInt() && antlion_easycrush.GetBool())
 	{
 		if( newInfo.GetDamageType() & DMG_CRUSH )
 		{
@@ -2609,7 +2611,7 @@ int CNPC_Antlion::OnTakeDamage_Alive( const CTakeDamageInfo &info )
 void CNPC_Antlion::CascadePush( const Vector &vecForce )
 {
 	// Controlled via this convar until this is proven worthwhile
-	if ( hl2_episodic.GetBool() == false /*|| g_antlion_cascade_push.GetBool() == false*/ )
+	if (mod_running.GetInt() == false /*|| g_antlion_cascade_push.GetBool() == false*/)
 		return;
 
 	Vector vecForceDir = vecForce;
@@ -2687,7 +2689,7 @@ void CNPC_Antlion::TraceAttack( const CTakeDamageInfo &info, const Vector &vecDi
  		{
 			//Grenades, physcannons, and physics impacts make us fuh-lip!
 			
-			if( hl2_episodic.GetBool() )
+			if (mod_running.GetInt())
 			{
 				PainSound( newInfo );
 
@@ -3501,9 +3503,9 @@ void CNPC_Antlion::CreateDust( bool placeDecal )
 	{
 		const surfacedata_t *pdata = physprops->GetSurfaceData( tr.surface.surfaceProps );
 
-		if ( hl2_episodic.GetBool() == true || ( pdata->game.material == CHAR_TEX_CONCRETE ) || 
-			 ( pdata->game.material == CHAR_TEX_DIRT ) ||
-			 ( pdata->game.material == CHAR_TEX_SAND ) ) 
+		if (mod_running.GetInt() || (pdata->game.material == CHAR_TEX_CONCRETE) || 
+			 (pdata->game.material == CHAR_TEX_DIRT) ||
+			 (pdata->game.material == CHAR_TEX_SAND)) 
 		{
 
 			if ( !m_bSuppressUnburrowEffects )
@@ -4153,7 +4155,7 @@ void CNPC_Antlion::Touch( CBaseEntity *pOther )
 //-----------------------------------------------------------------------------
 bool CNPC_Antlion::OverrideMoveFacing( const AILocalMoveGoal_t &move, float flInterval )
 {
-	if ( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		if ( IsWorker() && GetEnemy() )
 		{
@@ -4421,7 +4423,7 @@ void CNPC_Antlion::DoPoisonBurst()
 //-----------------------------------------------------------------------------
 bool CNPC_Antlion::IsHeavyDamage( const CTakeDamageInfo &info )
 {
-	if ( hl2_episodic.GetBool() && IsWorker() )
+	if (mod_running.GetInt() && IsWorker())
 	{
 		if ( m_nSustainedDamage + info.GetDamage() > 6 )
 			return true;

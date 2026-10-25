@@ -33,6 +33,8 @@
 
 CRagdollLowViolenceManager g_RagdollLVManager;
 
+extern ConVar mod_running;
+
 void CRagdollLowViolenceManager::SetLowViolence( const char *pMapName )
 {
 	// set the value using the engine's low violence settings
@@ -48,7 +50,7 @@ void CRagdollLowViolenceManager::SetLowViolence( const char *pMapName )
 
 	// Turn the low violence ragdoll stuff off if we're in the HL2 Citadel maps because
 	// the player has the super gravity gun and fading ragdolls will break things.
-	if( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		if ( Q_stricmp( pMapName, "ep1_citadel_02" ) == 0 ||
 			Q_stricmp( pMapName, "ep1_citadel_02b" ) == 0 ||

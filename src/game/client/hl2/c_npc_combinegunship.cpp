@@ -30,6 +30,8 @@ CLIENTEFFECT_REGISTER_BEGIN( PrecacheGunshipFX )
 CLIENTEFFECT_MATERIAL( "sprites/bluelaser1" )
 CLIENTEFFECT_REGISTER_END()
 
+extern ConVar mod_running;
+
 //-----------------------------------------------------------------------------
 // Big belly shot FX
 //-----------------------------------------------------------------------------
@@ -430,7 +432,7 @@ public:
 
 	virtual RenderGroup_t GetRenderGroup()
 	{
-		if ( hl2_episodic.GetBool() == true )
+		if (mod_running.GetInt())
 		{
 			return RENDER_GROUP_TWOPASS;
 		}

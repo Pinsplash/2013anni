@@ -14,6 +14,8 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
+extern ConVar mod_running;
+
 IMPLEMENT_SERVERCLASS_ST(CWeaponAlyxGun, DT_WeaponAlyxGun)
 END_SEND_TABLE()
 
@@ -224,7 +226,7 @@ void CWeaponAlyxGun::FireNPCPrimaryAttack( CBaseCombatCharacter *pOperator, bool
 
 	WeaponSound( SINGLE_NPC );
 
-	if( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		pOperator->FireBullets( 1, vecShootOrigin, vecShootDir, VECTOR_CONE_PRECALCULATED, MAX_TRACE_LENGTH, m_iPrimaryAmmoType, 1 );
 	}
@@ -235,11 +237,11 @@ void CWeaponAlyxGun::FireNPCPrimaryAttack( CBaseCombatCharacter *pOperator, bool
 
 	pOperator->DoMuzzleFlash();
 
-	if( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		// Never fire Alyx's last bullet just in case there's an emergency
 		// and she needs to be able to shoot without reloading.
-		if( m_iClip1 > 1 )
+		if (m_iClip1 > 1)
 		{
 			m_iClip1 = m_iClip1 - 1;
 		}
@@ -289,7 +291,7 @@ void CWeaponAlyxGun::Operator_HandleAnimEvent( animevent_t *pEvent, CBaseCombatC
 //-----------------------------------------------------------------------------
 bool IsAlyxInInjuredMode( void )
 {
-	if ( hl2_episodic.GetBool() == false )
+	if ( mod_running.GetInt() == false )
 		return false;
 
 	return ( GlobalEntity_GetState("ep2_alyx_injured") == GLOBAL_ON );

@@ -28,6 +28,8 @@ ConVar ai_no_talk_delay( "ai_no_talk_delay", "0" );
 
 ConVar rr_debug_qa( "rr_debug_qa", "0", FCVAR_NONE, "Set to 1 to see debug related to the Question & Answer system used to create conversations between allied NPCs.");
 
+extern ConVar mod_running;
+
 //-----------------------------------------------------------------------------
 
 ConceptCategoryInfo_t g_ConceptCategoryInfos[] =
@@ -452,26 +454,24 @@ void CAI_PlayerAlly::GatherConditions( void )
 void CAI_PlayerAlly::GatherEnemyConditions( CBaseEntity *pEnemy )
 {
 	BaseClass::GatherEnemyConditions( pEnemy );
-	if ( GetLastEnemyTime() == 0 || gpGlobals->curtime - GetLastEnemyTime() > 30 )
+	if (GetLastEnemyTime() == 0 || gpGlobals->curtime - GetLastEnemyTime() > 30)
 	{
 #ifdef HL2_DLL
-		if ( HasCondition( COND_SEE_ENEMY ) && ( pEnemy->Classify() != CLASS_BULLSEYE ) )
+		if (HasCondition(COND_SEE_ENEMY) && (pEnemy->Classify() != CLASS_BULLSEYE))
 		{
-			if( Classify() == CLASS_PLAYER_ALLY_VITAL && hl2_episodic.GetBool() )
+			if (Classify() == CLASS_PLAYER_ALLY_VITAL && mod_running.GetInt())
 			{
 				CBasePlayer *pPlayer = AI_GetSinglePlayer();
-
-				if( pPlayer )
+				if (pPlayer)
 				{
-				
 					// If I can see the player, and the player would see this enemy if he turned around...
-					if( !pPlayer->FInViewCone(pEnemy) && FVisible( pPlayer ) && pPlayer->FVisible(pEnemy) )
+					if (!pPlayer->FInViewCone(pEnemy) && FVisible( pPlayer ) && pPlayer->FVisible(pEnemy))
 					{
 						Vector2D vecPlayerView = pPlayer->EyeDirection2D().AsVector2D();
 						Vector2D vecToEnemy = ( pEnemy->GetAbsOrigin() - pPlayer->GetAbsOrigin() ).AsVector2D();
 						Vector2DNormalize( vecToEnemy );
 						
-						if( DotProduct2D(vecPlayerView, vecToEnemy) <= -0.75 )
+						if (DotProduct2D(vecPlayerView, vecToEnemy) <= -0.75)
 						{
 							SpeakIfAllowed( TLK_WATCHOUT, "dangerloc:behind" );
 							return;

@@ -26,6 +26,8 @@
 
 #define LEAD_MIN_RETRIEVEDIST_OFFSET		24
 
+extern ConVar mod_running;
+
 //-----------------------------------------------------------------------------
 // class CAI_LeadBehavior
 //
@@ -134,7 +136,7 @@ int CAI_LeadBehavior::DrawDebugTextOverlays( int text_offset )
 bool CAI_LeadBehavior::IsNavigationUrgent( void )
 {
 #if defined( HL2_DLL )
-	if( HasGoal() && !hl2_episodic.GetBool() )
+	if (HasGoal() && !mod_running.GetInt())
 	{
 		return (GetOuter()->Classify() == CLASS_PLAYER_ALLY_VITAL);
 	}
@@ -1011,7 +1013,7 @@ bool CAI_LeadBehavior::Speak( AIConcept_t concept )
 	if ( !m_hasspokenstart && bNag )
 		return false;
 
-	if ( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		// If we're a player ally, only speak the concept if we're allowed to.
 		// This allows the response rules to control it better (i.e. handles respeakdelay)

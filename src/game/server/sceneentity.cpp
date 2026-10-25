@@ -75,6 +75,8 @@ static int  speechListIndex = 0;
 //===========================================================================================================
 #define SCENE_LIST_MANAGER_MAX_SCENES	16
 
+extern ConVar mod_running;
+
 //-----------------------------------------------------------------------------
 // Purpose: Entity that manages a list of scenes
 //-----------------------------------------------------------------------------
@@ -2306,7 +2308,7 @@ bool CSceneEntity::CheckActors()
 			if ( pActor )
 			{
 				bool bShouldWait = false;
-				if ( hl2_episodic.GetBool() )
+				if (mod_running.GetInt())
 				{
 					// Episodic waits until the NPC is fully finished with any .vcd with speech in it
 					if ( IsRunningScriptedSceneWithSpeech( pActor ) )

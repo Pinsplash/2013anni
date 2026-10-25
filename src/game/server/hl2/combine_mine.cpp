@@ -18,6 +18,8 @@
 #include "vphysics/constraints.h"
 #include "ai_hint.h"
 
+extern ConVar mod_running;
+
 enum
 {
 	MINE_STATE_DORMANT = 0,
@@ -1020,23 +1022,23 @@ void CBounceBomb::SearchThink()
 void CBounceBomb::ExplodeTouch( CBaseEntity *pOther )
 {
 	// Don't touch anything if held by physgun.
-	if( m_bHeldByPhysgun )
+	if (m_bHeldByPhysgun)
 		return;
 
 	// Don't touch triggers.
-	if( pOther->IsSolidFlagSet(FSOLID_TRIGGER) )
+	if (pOther->IsSolidFlagSet(FSOLID_TRIGGER))
 		return;
 
 	// Don't touch gibs and other debris
-	if( pOther->GetCollisionGroup() == COLLISION_GROUP_DEBRIS )
+	if (pOther->GetCollisionGroup() == COLLISION_GROUP_DEBRIS)
 	{
-		if( hl2_episodic.GetBool() )
+		if (mod_running.GetInt())
 		{
 			Vector vecVelocity;
 
 			VPhysicsGetObject()->GetVelocity( &vecVelocity, NULL );
 
-			if( vecVelocity == vec3_origin )
+			if (vecVelocity == vec3_origin)
 			{
 				ExplodeThink();
 			}
@@ -1047,7 +1049,7 @@ void CBounceBomb::ExplodeTouch( CBaseEntity *pOther )
 
 	// Don't detonate against the world if not allowed. Actually, don't
 	// detonate against anything that's probably not an NPC (such as physics props)
-	if( m_flIgnoreWorldTime > gpGlobals->curtime && !pOther->MyCombatCharacterPointer() )
+	if (m_flIgnoreWorldTime > gpGlobals->curtime && !pOther->MyCombatCharacterPointer())
 	{
 		return;
 	}

@@ -25,6 +25,7 @@ static const char *s_pBlockedCheckContext = "BlockedCheckContext";
 
 ConVar g_debug_antlionmaker( "g_debug_antlionmaker", "0", FCVAR_CHEAT );
 
+extern ConVar mod_running;
 
 #define ANTLION_MAKER_PLAYER_DETECT_RADIUS	512
 #define ANTLION_MAKER_BLOCKED_MASS			250.0f		// half the weight of a car
@@ -286,7 +287,7 @@ void CAntlionTemplateMaker::Activate( void )
 			SetContextThink( &CAntlionTemplateMaker::PoolRegenThink, gpGlobals->curtime + m_flPoolRegenTime, s_pPoolThinkContext );
 
 			// Start our blocked effects cycle
-			if ( hl2_episodic.GetBool() == true && HasSpawnFlags( SF_ANTLIONMAKER_DO_BLOCKEDEFFECTS ) )
+			if (mod_running.GetInt() && HasSpawnFlags(SF_ANTLIONMAKER_DO_BLOCKEDEFFECTS))
 			{
 				SetContextThink( &CAntlionTemplateMaker::FindNodesCloseToPlayer, gpGlobals->curtime + 1.0f, s_pBlockedEffectsThinkContext );
 			}
@@ -608,7 +609,7 @@ void CAntlionTemplateMaker::Enable( void )
 		SetContextThink( &CAntlionTemplateMaker::PoolRegenThink, gpGlobals->curtime + m_flPoolRegenTime, s_pPoolThinkContext );
 	}
 
-	if ( hl2_episodic.GetBool() == true && HasSpawnFlags( SF_ANTLIONMAKER_DO_BLOCKEDEFFECTS ) )
+	if (mod_running.GetInt() && HasSpawnFlags(SF_ANTLIONMAKER_DO_BLOCKEDEFFECTS))
 	{
 		SetContextThink( &CAntlionTemplateMaker::FindNodesCloseToPlayer, gpGlobals->curtime + 1.0f, s_pBlockedEffectsThinkContext );
 	}
@@ -1083,7 +1084,7 @@ void CAntlionTemplateMaker::DoBlockedEffects( CBaseEntity *pBlocker, Vector vOri
 CBaseEntity *CAntlionTemplateMaker::AllHintsFromClusterBlocked( CAI_Hint *pNode, bool &bChosenHintBlocked )
 {
 	// Only do this for episodic content!
-	if ( hl2_episodic.GetBool() == false )
+	if (mod_running.GetInt() == false)
 		return NULL;
 
 	CBaseEntity *pBlocker = NULL;

@@ -65,6 +65,8 @@ enum StalkerBeamPower_e
 ConVar	sk_stalker_health( "sk_stalker_health","0");
 ConVar	sk_stalker_melee_dmg( "sk_stalker_melee_dmg","0");
 
+extern ConVar mod_running;
+
 extern void		SpawnBlood(Vector vecSpot, const Vector &vAttackDir, int bloodColor, float flDamage);
 
 LINK_ENTITY_TO_CLASS( npc_stalker, CNPC_Stalker );
@@ -538,8 +540,8 @@ void CNPC_Stalker::StartTask( const Task_t *pTask )
 
 				// Never hit target on first try
 				Vector missPos = m_vLaserTargetPos;
-				
-				if( pEnemy->Classify() == CLASS_BULLSEYE && hl2_episodic.GetBool() )
+
+				if (pEnemy->Classify() == CLASS_BULLSEYE && mod_running.GetInt())
 				{
 					missPos.x += 60 + 120*random->RandomInt(-1,1);
 					missPos.y += 60 + 120*random->RandomInt(-1,1);

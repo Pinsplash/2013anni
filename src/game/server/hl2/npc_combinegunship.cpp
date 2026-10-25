@@ -73,6 +73,8 @@ ConVar sk_gunship_burst_dist("sk_gunship_burst_dist", "768" );
 // Number of times the gunship must be struck by explosive damage
 ConVar	sk_gunship_health_increments( "sk_gunship_health_increments", "0" );
 
+extern ConVar mod_running;
+
 /*
 
 Wedge's notes:
@@ -617,9 +619,9 @@ void CNPC_CombineGunship::Spawn( void )
 		m_bDamageOutputsFired[i] = false;
 	}
 
-	CapabilitiesAdd( bits_CAP_SQUAD);
+	CapabilitiesAdd(bits_CAP_SQUAD);
 
-	if ( hl2_episodic.GetBool() == true )
+	if (mod_running.GetInt())
 	{
 		CreateBellyBlastEnergyCore();
 	}
@@ -680,7 +682,7 @@ void CNPC_CombineGunship::Precache( void )
 	PrecacheScriptSound( "NPC_CombineGunship.ExhaustSound" );
 	PrecacheScriptSound( "NPC_CombineGunship.RotorBlastSound" );
 
-	if ( hl2_episodic.GetBool() == true )
+	if (mod_running.GetInt())
 	{
 		UTIL_PrecacheOther( "env_citadel_energy_core" );
 		g_iGunshipEffectIndex = PrecacheModel( "sprites/physbeam.vmt" );
@@ -923,7 +925,7 @@ void CNPC_CombineGunship::StartGroundAttack( void )
 	
 	CSoundEnt::InsertSound ( SOUND_DANGER, endpos, 1024, 0.5f );
 
-	if ( hl2_episodic.GetBool() == true )
+	if (mod_running.GetInt())
 	{
 		if ( m_hEnergyCore )
 		{
@@ -1103,7 +1105,7 @@ void CNPC_CombineGunship::DoGroundAttackExplosion( void )
 	UTIL_TraceLine( vecSrc, impactPoint, MASK_SHOT, this, COLLISION_GROUP_NONE, &tr );
 	UTIL_DecalTrace( &tr, "Scorch" );
 
-	if ( hl2_episodic.GetBool() == true )
+	if (mod_running.GetInt())
 	{
 		g_pEffects->EnergySplash( tr.endpos, tr.plane.normal );
 
@@ -1176,7 +1178,7 @@ void CNPC_CombineGunship::StopGroundAttack( bool bDoAttack )
 		WRITE_VEC3COORD( hitPos );
 	MessageEnd();
 
-	if ( hl2_episodic.GetBool() == true )
+	if (mod_running.GetInt())
 	{
 		if ( m_hEnergyCore )
 		{
@@ -1971,7 +1973,7 @@ void CNPC_CombineGunship::BeginDestruct( void )
 	m_flEndDestructTime = gpGlobals->curtime + 3.0;
 
 	// Clamp velocity
-	if( hl2_episodic.GetBool() && GetAbsVelocity().Length() > 700.0f )
+	if (mod_running.GetInt() && GetAbsVelocity().Length() > 700.0f)
 	{
 		Vector vecVelocity = GetAbsVelocity(); 
 		VectorNormalize( vecVelocity );
@@ -2231,8 +2233,8 @@ void CNPC_CombineGunship::Flight( void )
 	m_flForce = m_flForce * 0.8 + (accel.z + fabs( accel.x ) * 0.1 + fabs( accel.y ) * 0.1) * 0.1 * 0.2;
 
 	Vector vecImpulse = m_flForce * up;
-	
-	if ( !m_hCrashTarget && m_lifeState == LIFE_DYING && !hl2_episodic.GetBool() )
+
+	if (!m_hCrashTarget && m_lifeState == LIFE_DYING && !mod_running.GetInt())
 	{
 		// Force gunship to the ground if it doesn't have a specific place to crash.
 		// EXCEPT In episodic, where forcing it to the ground means it crashes where the player can't see (attic showdown) (sjb)

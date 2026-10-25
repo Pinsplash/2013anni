@@ -120,6 +120,8 @@ extern ConVar sv_maxunlag;
 extern ConVar sv_turbophysics;
 extern ConVar *sv_maxreplay;
 
+extern ConVar mod_running;
+
 extern CServerGameDLL g_ServerGameDLL;
 
 // TIME BASED DAMAGE AMOUNT
@@ -1348,7 +1350,7 @@ int CBasePlayer::OnTakeDamage( const CTakeDamageInfo &inputInfo )
 
 	float flPunch = -2;
 
-	if( hl2_episodic.GetBool() && info.GetAttacker() && !FInViewCone( info.GetAttacker() ) )
+	if (mod_running.GetInt() && info.GetAttacker() && !FInViewCone(info.GetAttacker()))
 	{
 		if( info.GetDamage() > 10.0f )
 			flPunch = -10;
@@ -6573,7 +6575,7 @@ bool CBasePlayer::BumpWeapon( CBaseCombatWeapon *pWeapon )
 	}
 
 	// Act differently in the episodes
-	if ( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		// Don't let the player touch the item unless unobstructed
 		if ( !UTIL_ItemCanBeTouchedByPlayer( pWeapon, this ) && !gEvilImpulse101 )

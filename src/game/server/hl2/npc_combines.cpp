@@ -396,7 +396,7 @@ bool CNPC_CombineS::IsHeavyDamage( const CTakeDamageInfo &info )
 	}
 
 	// Rollermine shocks
-	if( (info.GetDamageType() & DMG_SHOCK) && hl2_episodic.GetBool() )
+	if ((info.GetDamageType() & DMG_SHOCK) && mod_running.GetInt())
 	{
 		return true;
 	}

@@ -25,6 +25,8 @@
 extern ConVar sk_auto_reload_time;
 extern ConVar sk_plr_num_shotgun_pellets;
 
+extern ConVar mod_running;
+
 class CWeaponShotgun : public CBaseHLCombatWeapon
 {
 	DECLARE_DATADESC();
@@ -233,7 +235,7 @@ void CWeaponShotgun::Operator_HandleAnimEvent( animevent_t *pEvent, CBaseCombatC
 //-----------------------------------------------------------------------------
 float CWeaponShotgun::GetMinRestTime()
 {
-	if( hl2_episodic.GetBool() && GetOwner() && GetOwner()->Classify() == CLASS_COMBINE )
+	if (mod_running.GetInt() && GetOwner() && GetOwner()->Classify() == CLASS_COMBINE)
 	{
 		return 1.2f;
 	}
@@ -245,7 +247,7 @@ float CWeaponShotgun::GetMinRestTime()
 //-----------------------------------------------------------------------------
 float CWeaponShotgun::GetMaxRestTime()
 {
-	if( hl2_episodic.GetBool() && GetOwner() && GetOwner()->Classify() == CLASS_COMBINE )
+	if (mod_running.GetInt() && GetOwner() && GetOwner()->Classify() == CLASS_COMBINE)
 	{
 		return 1.5f;
 	}
@@ -259,7 +261,7 @@ float CWeaponShotgun::GetMaxRestTime()
 //-----------------------------------------------------------------------------
 float CWeaponShotgun::GetFireRate()
 {
-	if( hl2_episodic.GetBool() && GetOwner() && GetOwner()->Classify() == CLASS_COMBINE )
+	if (mod_running.GetInt() && GetOwner() && GetOwner()->Classify() == CLASS_COMBINE)
 	{
 		return 0.8f;
 	}

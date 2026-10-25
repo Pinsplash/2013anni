@@ -48,6 +48,8 @@ ConVar rpg_missle_use_custom_detonators( "rpg_missle_use_custom_detonators", "1"
 
 const char *g_pLaserDotThink = "LaserThinkContext";
 
+extern ConVar mod_running;
+
 //-----------------------------------------------------------------------------
 // Laser Dot
 //-----------------------------------------------------------------------------
@@ -574,7 +576,7 @@ void CMissile::SeekThink( void )
 		}
 	}
 
-	if( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		if( flBestDist <= ( GetAbsVelocity().Length() * 2.5f ) && FVisible( pBestDot->GetAbsOrigin() ) )
 		{
@@ -640,11 +642,11 @@ void CMissile::SeekThink( void )
 	VectorSubtract( targetPos, GetAbsOrigin(), vTargetDir );
 	float flDist = VectorNormalize( vTargetDir );
 
-	if( pLaserDot->GetTargetEntity() != NULL && flDist <= 240.0f && hl2_episodic.GetBool() )
+	if (pLaserDot->GetTargetEntity() != NULL && flDist <= 240.0f && mod_running.GetInt())
 	{
 		// Prevent the missile circling the Strider like a Halo in ep1_c17_06. If the missile gets within 20
 		// feet of a Strider, tighten up the turn speed of the missile so it can break the halo and strike. (sjb 4/27/2006)
-		if( pLaserDot->GetTargetEntity()->ClassMatches( "npc_strider" ) )
+		if (pLaserDot->GetTargetEntity()->ClassMatches("npc_strider"))
 		{
 			flHomingSpeed *= 1.75f;
 		}
@@ -1651,7 +1653,7 @@ void CWeaponRPG::PrimaryAttack( void )
 		}
 	}
 
-	if( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		CAI_BaseNPC **ppAIs = g_AI_Manager.AccessAIs();
 		int nAIs = g_AI_Manager.NumAIs();

@@ -82,6 +82,8 @@ ConVar sk_vortigaunt_vital_antlion_worker_dmg("sk_vortigaunt_vital_antlion_worke
 
 ConVar g_debug_vortigaunt_aim( "g_debug_vortigaunt_aim", "0" );
 
+extern ConVar mod_running;
+
 // FIXME: Move to shared code!
 #define VORTFX_ZAPBEAM		0	// Beam that damages the target
 #define VORTFX_ARMBEAM		1	// Smaller beams from the hands as we charge up
@@ -1143,17 +1145,8 @@ void CNPC_Vortigaunt::Precache()
 	PrecacheModel("sprites/vortring1.vmt");
 
 	// HACK: Only precache this for EP2 because reslists cannot be rebuilt - 08/22/07 - jdw
-	if ( hl2_episodic.GetBool() )
-	{
-		char modDir[MAX_PATH];
-		if ( UTIL_GetModDir( modDir, sizeof(modDir) ) )
-		{
-			if ( !Q_stricmp( modDir, "mod_ep2" ) )
-			{
-				PrecacheMaterial( "effects/rollerglow" );
-			}
-		}
-	}
+	if (mod_running.GetInt() != 2)
+		PrecacheMaterial("effects/rollerglow");
 
 	PrecacheScriptSound( "NPC_Vortigaunt.SuitOn" );
 	PrecacheScriptSound( "NPC_Vortigaunt.SuitCharge" );

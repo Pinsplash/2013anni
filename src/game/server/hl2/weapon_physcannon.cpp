@@ -219,7 +219,7 @@ protected:
 void UTIL_PhyscannonTraceLine( const Vector &vecAbsStart, const Vector &vecAbsEnd, CBaseEntity *pTraceOwner, trace_t *pTrace )
 {
 	// Default to HL2 vanilla
-	if ( hl2_episodic.GetBool() == false )
+	if (mod_running.GetInt() == false)
 	{
 		CTraceFilterNoOwnerTest filter( pTraceOwner, COLLISION_GROUP_NONE );
 		UTIL_TraceLine( vecAbsStart, vecAbsEnd, (MASK_SHOT|CONTENTS_GRATE), &filter, pTrace );
@@ -251,7 +251,7 @@ void UTIL_PhyscannonTraceLine( const Vector &vecAbsStart, const Vector &vecAbsEn
 void UTIL_PhyscannonTraceHull( const Vector &vecAbsStart, const Vector &vecAbsEnd, const Vector &vecAbsMins, const Vector &vecAbsMaxs, CBaseEntity *pTraceOwner, trace_t *pTrace )
 {
 	// Default to HL2 vanilla
-	if ( hl2_episodic.GetBool() == false )
+	if (mod_running.GetInt() == false)
 	{
 		CTraceFilterNoOwnerTest filter( pTraceOwner, COLLISION_GROUP_NONE );
 		UTIL_TraceHull( vecAbsStart, vecAbsEnd, vecAbsMins, vecAbsMaxs, (MASK_SHOT|CONTENTS_GRATE), &filter, pTrace );
@@ -1805,7 +1805,7 @@ void CWeaponPhysCannon::Physgun_OnPhysGunPickup( CBaseEntity *pEntity, CBasePlay
 	}
 
 	// Warn Alyx if the player is punting a car around.
-	if( hl2_episodic.GetBool() && mass > 250.0f )
+	if (mod_running.GetInt() && mass > 250.0f)
 	{
 		CAI_BaseNPC **ppAIs = g_AI_Manager.AccessAIs();
 		int nAIs = g_AI_Manager.NumAIs();
@@ -2176,7 +2176,7 @@ void CWeaponPhysCannon::PrimaryAttack( void )
 		UTIL_PhyscannonTraceLine( start, end, pOwner, &tr );
 		if ( tr.fraction == 1 || !tr.m_pEnt || tr.m_pEnt->IsEFlagSet( EFL_NO_PHYSCANNON_INTERACTION ) )
 		{
-			if( hl2_episodic.GetBool() )
+			if (mod_running.GetInt())
 			{
 				// Try to find something in a very small cone. 
 				CBaseEntity *pObject = FindObjectInCone( start, forward, physcannon_punt_cone.GetFloat() );
@@ -2477,7 +2477,7 @@ void CWeaponPhysCannon::FindObjectTrace( CBasePlayer *pPlayer, trace_t *pTraceRe
 	float	testLength = TraceLength() * 4.0f;
 	Vector	end = start + forward * testLength;
 
-	if( IsMegaPhysCannon() && hl2_episodic.GetBool() )
+	if (IsMegaPhysCannon() && mod_running.GetInt())
 	{
 		Vector vecAutoAimDir = pPlayer->GetAutoaimVector( 1.0f, testLength );
 		end = start + vecAutoAimDir * testLength;
@@ -3338,7 +3338,7 @@ void CWeaponPhysCannon::ItemPostFrame()
 		WeaponIdle();
 	}
 
-	if ( hl2_episodic.GetBool() == true )
+	if (mod_running.GetInt())
 	{
 		if ( IsMegaPhysCannon() )
 		{

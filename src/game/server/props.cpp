@@ -79,6 +79,8 @@ ConVar func_breakdmg_explosive( "func_breakdmg_explosive", "1.25" );
 
 ConVar sv_turbophysics( "sv_turbophysics", "0", FCVAR_REPLICATED, "Turns on turbo physics" );
 
+extern ConVar mod_running;
+
 #ifdef HL2_EPISODIC
 	#define PROP_FLARE_LIFETIME 30.0f
 	#define PROP_FLARE_IGNITE_SUBSTRACT 5.0f
@@ -2873,7 +2875,7 @@ int CPhysicsProp::ObjectCaps()
 	{
 		caps |= FCAP_IMPULSE_USE;
 
-		if( hl2_episodic.GetBool() && HasInteraction( PROPINTER_PHYSGUN_CREATE_FLARE )  )
+		if (mod_running.GetInt() && HasInteraction(PROPINTER_PHYSGUN_CREATE_FLARE))
 		{
 			caps |= FCAP_USE_IN_RADIUS;
 		}
@@ -3104,7 +3106,7 @@ int CPhysicsProp::OnTakeDamage( const CTakeDamageInfo &info )
 
 				int dangerRadius = 256; // generous radius to begin with
 
-				if( hl2_episodic.GetBool() )
+				if (mod_running.GetInt())
 				{
 					// In Episodic, burning items (such as destroyed APCs) are making very large
 					// danger sounds which frighten NPCs. This danger sound was designed to frighten

@@ -55,6 +55,7 @@ extern short g_sModelIndexFireball; // Echh...
 
 ConVar sk_apc_health( "sk_apc_health", "750" );
 
+extern ConVar mod_running;
 
 #define APC_MAX_CHUNKS	3
 static const char *s_pChunkModelName[APC_MAX_CHUNKS] = 
@@ -490,7 +491,7 @@ void CPropAPC::Event_Killed( const CTakeDamageInfo &info )
 
 	UTIL_ScreenShake( vecAbsPoint, 25.0, 150.0, 1.0, 750.0f, SHAKE_START );
 
-	if( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		// EP1 perf hit
 		Ignite( 6, false );
@@ -897,8 +898,8 @@ void CPropAPC::CreateCorpse( )
 				pObj->AddVelocity( &vecVelocity, &angImpulse );
 			}
 			pGib->SetCollisionGroup( COLLISION_GROUP_DEBRIS );
-		}	
-		if( hl2_episodic.GetBool() )
+		}
+		if (mod_running.GetInt())
 		{
 			// EP1 perf hit
 			pGib->Ignite( 6, false );

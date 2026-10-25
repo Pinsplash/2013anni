@@ -204,7 +204,7 @@ static ConVar s_UseNetworkVars( "UseNetworkVars", "1", FCVAR_CHEAT, "For profili
 extern ConVar sv_noclipduringpause;
 ConVar sv_massreport( "sv_massreport", "0" );
 ConVar sv_force_transmit_ents( "sv_force_transmit_ents", "0", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY, "Will transmit all entities to client, regardless of PVS conditions (will still skip based on transmit flags, however)." );
-
+extern ConVar mod_running;
 ConVar sv_autosave( "sv_autosave", "1", 0, "Set to 1 to autosave game on level transition. Does not affect autosave triggers." );
 ConVar *sv_maxreplay = NULL;
 static ConVar  *g_pcv_commentary = NULL;
@@ -304,8 +304,8 @@ CBasePlayer *UTIL_GetCommandClient( void )
 
 //-----------------------------------------------------------------------------
 // Purpose: Retrieves the MOD directory for the active game (ie. "hl2")
+// 2013anni: DO NOT USE FOR MOST PURPOSES. Use the mod_running convar.
 //-----------------------------------------------------------------------------
-
 bool UTIL_GetModDir( char *lpszTextOut, unsigned int nSize )
 {
 	// Must pass in a buffer at least large enough to hold the desired string
@@ -619,12 +619,21 @@ bool CServerGameDLL::DLLInit( CreateInterfaceFn appSystemFactory,
 			V_AppendSlash(szPath, sizeof(szPath));
 			V_strcpy(szOriginalPath, szPath);
 
-#ifdef HL2_EPISODIC
 			char modDir[MAX_PATH];
 			if (UTIL_GetModDir(modDir, sizeof(modDir)) == false)
 				Error("2013anni: Missing mod directory?");
 
 			if (Q_stristr(modDir, "mod_ep2"))
+				mod_running.SetValue(2);
+			else if (Q_stristr(modDir, "mod_episodic"))
+				mod_running.SetValue(1);
+			else if (Q_stristr(modDir, "mod_hl2"))
+				mod_running.SetValue(0);
+			else
+				Error("2013anni: Unknown -game parameter. See readme.");
+
+#ifdef HL2_EPISODIC
+			if (mod_running.GetInt() == 2)
 			{
 				V_strncat(szPath, "ep2", sizeof(szPath));
 				g_pFullFileSystem->AddSearchPath(szPath, "GAME");
@@ -2131,13 +2140,13 @@ void UpdateChapterRestrictions( const char *mapname )
 
 		// HACK: HL2 added a zany chapter "9a" which wreaks
 		//       havoc in this stupid atoi-based chapter code.
-		if ( !Q_stricmp( modDir, "mod_hl2" ) )
+		if (mod_running.GetInt() == 0)
 		{
-			if ( !Q_stricmp( newChapter, "9a" ) )
+			if (!Q_stricmp(newChapter, "9a"))
 			{
 				nNewChapter = 10;
 			}
-			else if ( nNewChapter > 9 )
+			else if (nNewChapter > 9)
 			{
 				nNewChapter++;
 			}
@@ -2174,29 +2183,24 @@ void UpdateRichPresence ( void )
 	// Shouldn't get here unless we're playing a map and we've updated sv_unlockedchapters
 	Assert ( g_nCurrentChapterIndex >= 0 );
 
-	// Get our active mod directory name
-	char modDir[MAX_PATH];
-	if ( UTIL_GetModDir( modDir, sizeof(modDir) ) == false )
-		return;
-
 	// Get presence data based on the game we're playing
 	uint iGameID, iChapterIndex, iChapterID, iGamePresenceID;
 	iGameID = iChapterIndex = iChapterID = iGamePresenceID = 0;
-	if ( Q_stristr( modDir, "mod_hl2" ) )
+	if (mod_running.GetInt() == 0)
 	{
 		iGameID			= CONTEXT_GAME_GAME_HALF_LIFE_2;
 		iChapterID		= CONTEXT_CHAPTER_HL2;
 		iChapterIndex	= g_nCurrentChapterIndex - 1;
 		iGamePresenceID = CONTEXT_PRESENCE_HL2_INGAME;
 	}
-	else if ( Q_stristr( modDir, "mod_episodic" ) )
+	else if (mod_running.GetInt() == 1)
 	{
 		iGameID			= CONTEXT_GAME_GAME_EPISODE_ONE;
 		iChapterID		= CONTEXT_CHAPTER_EP1;
 		iChapterIndex	= g_nCurrentChapterIndex - 1;
 		iGamePresenceID = CONTEXT_PRESENCE_EP1_INGAME;
 	}
-	else if ( Q_stristr( modDir, "mod_ep2" ) )
+	else if (mod_running.GetInt() == 2)
 	{
 		iGameID			= CONTEXT_GAME_GAME_EPISODE_TWO;
 		iChapterID		= CONTEXT_CHAPTER_EP2;

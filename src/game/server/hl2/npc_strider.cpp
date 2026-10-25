@@ -109,6 +109,8 @@ ConVar strider_missile_suppress_dist( "strider_missile_suppress_dist", "240" );
 ConVar strider_missile_suppress_time( "strider_missile_suppress_time", "3" );
 
 
+extern ConVar mod_running;
+
 //-----------------------------------------------------------------------------
 
 float GetCurrentGravity( void );
@@ -1275,24 +1277,24 @@ void CNPC_Strider::BuildScheduleTestBits()
 		SetCustomInterruptCondition( COND_STRIDER_DO_FLICK );
 	}
 
-	if( IsCurSchedule( SCHED_ESTABLISH_LINE_OF_FIRE_FALLBACK, false ) || IsCurSchedule( SCHED_ESTABLISH_LINE_OF_FIRE, false ) )
+	if (IsCurSchedule(SCHED_ESTABLISH_LINE_OF_FIRE_FALLBACK, false) || IsCurSchedule(SCHED_ESTABLISH_LINE_OF_FIRE, false))
 	{
 		SetCustomInterruptCondition( COND_STRIDER_MINIGUN_SHOOTING );
 	}
 
-	if( IsCurSchedule( SCHED_IDLE_STAND ) )
+	if (IsCurSchedule(SCHED_IDLE_STAND))
 	{
 		SetCustomInterruptCondition( COND_STRIDER_HAS_CANNON_TARGET );
 	}
 
 	// If our base-class schedule breaks on CAN_RANGE_ATTACK1, then also break
 	// on HAS_CANNON_TARGET.
-	if( GetCurSchedule()->HasInterrupt( COND_CAN_RANGE_ATTACK1 ) && HasCondition( COND_STRIDER_HAS_CANNON_TARGET ) )
+	if (GetCurSchedule()->HasInterrupt(COND_CAN_RANGE_ATTACK1) && HasCondition(COND_STRIDER_HAS_CANNON_TARGET))
 	{
 		SetCustomInterruptCondition( COND_STRIDER_HAS_CANNON_TARGET );
 	}
 
-	if( IsCurSchedule( SCHED_IDLE_WALK ) || ( IsCurSchedule( SCHED_IDLE_STAND ) && hl2_episodic.GetBool() ) )
+	if (IsCurSchedule(SCHED_IDLE_WALK) || (IsCurSchedule(SCHED_IDLE_STAND) && mod_running.GetInt()))
 	{
 		SetCustomInterruptCondition(COND_STRIDER_SHOULD_CROUCH);
 	}
@@ -4219,7 +4221,7 @@ Vector CNPC_Strider::LeftFootHit( float eventtime )
 
 	GetAttachment( "left foot", footPosition, angles );
 
-	if ( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		CPASAttenuationFilter filter( this, "NPC_Strider.FootstepEverywhere" );
 		EmitSound( filter, 0, "NPC_Strider.FootstepEverywhere", &footPosition, eventtime );
@@ -4242,8 +4244,8 @@ Vector CNPC_Strider::RightFootHit( float eventtime )
 	Vector footPosition;
 
 	GetAttachment( "right foot", footPosition );
-	
-	if ( hl2_episodic.GetBool() )
+
+	if (mod_running.GetInt())
 	{
 		CPASAttenuationFilter filter( this, "NPC_Strider.FootstepEverywhere" );
 		EmitSound( filter, 0, "NPC_Strider.FootstepEverywhere", &footPosition, eventtime );
@@ -4268,7 +4270,7 @@ Vector CNPC_Strider::BackFootHit( float eventtime )
 
 	GetAttachment( "back foot", footPosition );
 
-	if ( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		CPASAttenuationFilter filter( this, "NPC_Strider.FootstepEverywhere" );
 		EmitSound( filter, 0, "NPC_Strider.FootstepEverywhere", &footPosition, eventtime );

@@ -55,6 +55,8 @@ int g_fCombineQuestion;				// true if an idle grunt asked a question. Cleared wh
 #define COMBINE_SHOTGUN_CROUCHING_POSITION	Vector( 0, 0, 36 )
 #define COMBINE_MIN_CROUCH_DISTANCE		256.0
 
+extern ConVar mod_running;
+
 //-----------------------------------------------------------------------------
 // Static stuff local to this file.
 //-----------------------------------------------------------------------------
@@ -3138,9 +3140,9 @@ void CNPC_Combine::OnEndMoveAndShoot()
 //-----------------------------------------------------------------------------
 WeaponProficiency_t CNPC_Combine::CalcWeaponProficiency( CBaseCombatWeapon *pWeapon )
 {
-	if( FClassnameIs( pWeapon, "weapon_ar2" ) )
+	if (FClassnameIs(pWeapon, "weapon_ar2"))
 	{
-		if( hl2_episodic.GetBool() )
+		if (mod_running.GetInt())
 		{
 			return WEAPON_PROFICIENCY_VERY_GOOD;
 		}
@@ -3149,16 +3151,16 @@ WeaponProficiency_t CNPC_Combine::CalcWeaponProficiency( CBaseCombatWeapon *pWea
 			return WEAPON_PROFICIENCY_GOOD;
 		}
 	}
-	else if( FClassnameIs( pWeapon, "weapon_shotgun" )	)
+	else if (FClassnameIs(pWeapon, "weapon_shotgun"))
 	{
-		if( m_nSkin != COMBINE_SKIN_SHOTGUNNER )
+		if (m_nSkin != COMBINE_SKIN_SHOTGUNNER)
 		{
 			m_nSkin = COMBINE_SKIN_SHOTGUNNER;
 		}
 
 		return WEAPON_PROFICIENCY_PERFECT;
 	}
-	else if( FClassnameIs( pWeapon, "weapon_smg1" ) )
+	else if (FClassnameIs(pWeapon, "weapon_smg1"))
 	{
 		return WEAPON_PROFICIENCY_GOOD;
 	}

@@ -46,6 +46,8 @@ ConVar	g_debug_antlionguard( "g_debug_antlionguard", "0" );
 ConVar	sk_antlionguard_dmg_charge( "sk_antlionguard_dmg_charge", "0" );
 ConVar	sk_antlionguard_dmg_shove( "sk_antlionguard_dmg_shove", "0" );
 
+extern ConVar mod_running;
+
 #if HL2_EPISODIC
 // When enabled, add code to have the antlion bleed profusely as it is badly injured.
 #define ANTLIONGUARD_BLOOD_EFFECTS 2
@@ -1063,7 +1065,7 @@ int CNPC_AntlionGuard::SelectCombatSchedule( void )
 bool CNPC_AntlionGuard::ShouldCharge( const Vector &startPos, const Vector &endPos, bool useTime, bool bCheckForCancel )
 {
 	// Don't charge in tight spaces unless forced to
-	if ( hl2_episodic.GetBool() && m_bInCavern && !(m_hChargeTarget.Get() && m_hChargeTarget->IsAlive()) )
+	if (mod_running.GetInt() && m_bInCavern && !(m_hChargeTarget.Get() && m_hChargeTarget->IsAlive()))
 		return false;
 
 	// Must have a target
@@ -1265,7 +1267,7 @@ int CNPC_AntlionGuard::MeleeAttack1Conditions( float flDot, float flDist )
 	if ( IsCurSchedule( SCHED_ANTLIONGUARD_CHARGE ) )
 		return 0;
 
-	if ( hl2_episodic.GetBool() && m_bInCavern )
+	if (mod_running.GetInt() && m_bInCavern)
 	{
 		// Predict where they'll be and see if THAT is within range
 		Vector vecPredPos;
@@ -1324,7 +1326,7 @@ float CNPC_AntlionGuard::MaxYawSpeed( void )
 	if ( eActivity == ACT_ANTLIONGUARD_CHARGE_START )
 		return 4.0f;
 
-	if ( hl2_episodic.GetBool() && m_bInCavern )
+	if (mod_running.GetInt() && m_bInCavern)
 	{
 		// Allow a better turning rate when moving quickly but not charging the player
 		if ( ( eActivity == ACT_ANTLIONGUARD_CHARGE_RUN ) && IsCurSchedule( SCHED_ANTLIONGUARD_CHARGE ) == false )
@@ -1748,7 +1750,7 @@ void CNPC_AntlionGuard::HandleAnimEvent( animevent_t *pEvent )
 			}
 
 			// Toss this if we're episodic
-			if ( hl2_episodic.GetBool() )
+			if (mod_running.GetInt())
 			{
 				Vector vecTargetDir = vecShoveVel;
 
@@ -3371,7 +3373,7 @@ Activity CNPC_AntlionGuard::NPC_TranslateActivity( Activity baseAct )
 		return (Activity) ACT_ANTLIONGUARD_CHARGE_RUN;
 
 	// Do extra code if we're trying to close on an enemy in a confined space (unless scripted)
-	if ( hl2_episodic.GetBool() && m_bInCavern && baseAct == ACT_RUN && IsInAScript() == false )
+	if (mod_running.GetInt() && m_bInCavern && baseAct == ACT_RUN && IsInAScript() == false)
 		return (Activity) ACT_ANTLIONGUARD_CHARGE_RUN;
 
 	if ( ( baseAct == ACT_RUN ) && ( m_iHealth <= (m_iMaxHealth/4) ) )
@@ -4356,7 +4358,7 @@ bool CNPC_AntlionGuard::CanBecomeRagdoll( void )
 	if ( IsCurSchedule( SCHED_DIE ) )
 		return true;
 
-	return hl2_episodic.GetBool();
+	return mod_running.GetInt() != 0;
 }
 
 //-----------------------------------------------------------------------------

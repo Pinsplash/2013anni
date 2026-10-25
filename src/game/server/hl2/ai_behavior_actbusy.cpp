@@ -35,6 +35,8 @@ ConVar  ai_debug_actbusy( "ai_debug_actbusy", "0", FCVAR_CHEAT, "Used to debug a
 5: Display safe zone volumes and info.\n\
 ");
 
+extern ConVar mod_running;
+
 // Anim events
 static int AE_ACTBUSY_WEAPON_FIRE_ON;
 static int AE_ACTBUSY_WEAPON_FIRE_OFF;
@@ -2480,7 +2482,7 @@ void CAI_ActBusyGoal::InputForceNPCToActBusy( inputdata_t &inputdata )
 		return;
 
 	// Wrapped this bugfix so that it doesn't break HL2.
-	bool bEpisodicBugFix = hl2_episodic.GetBool();
+	bool bEpisodicBugFix = mod_running.GetInt() != 0;
 
 	// Do we have a specified node too?
 	pszParam = strtok(NULL," ");

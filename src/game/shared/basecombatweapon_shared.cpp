@@ -51,6 +51,8 @@
 
 extern bool UTIL_ItemCanBeTouchedByPlayer( CBaseEntity *pItem, CBasePlayer *pPlayer );
 
+extern ConVar mod_running;
+
 #if defined ( TF_CLIENT_DLL ) || defined ( TF_DLL )
 #ifdef _DEBUG
 ConVar tf_weapon_criticals_force_random( "tf_weapon_criticals_force_random", "0", FCVAR_REPLICATED | FCVAR_CHEAT );
@@ -679,7 +681,7 @@ void CBaseCombatWeapon::Drop( const Vector &vecVelocity )
 	SetThink( &CBaseCombatWeapon::SetPickupTouch );
 	SetTouch(NULL);
 
-	if( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		RemoveSpawnFlags( SF_WEAPON_NO_PLAYER_PICKUP );
 	}

@@ -51,6 +51,8 @@ ConVar showsniperdist("showsniperdist", "0" );
 ConVar sniperspeak( "sniperspeak", "0" );
 ConVar sniper_xbox_delay( "sniper_xbox_delay", "1" );
 
+extern ConVar mod_running;
+
 // Moved to HL2_SharedGameRules because these are referenced by shared AmmoDef functions
 extern ConVar sk_dmg_sniper_penetrate_plr;
 extern ConVar sk_dmg_sniper_penetrate_npc;
@@ -1341,7 +1343,7 @@ void CProtoSniper::Event_Killed( const CTakeDamageInfo &info )
 		}
 
 		CBaseEntity *pGib;
-		bool bShouldIgnite = IsOnFire() || hl2_episodic.GetBool();
+		bool bShouldIgnite = IsOnFire() || mod_running.GetInt();
 		pGib = CreateRagGib( "models/combine_soldier.mdl", GetLocalOrigin(), GetLocalAngles(), (vecForward * flForce) + Vector(0, 0, 600), flFadeTime, bShouldIgnite );
 
 	}
@@ -2435,7 +2437,7 @@ Vector CProtoSniper::DesiredBodyTarget( CBaseEntity *pTarget )
 		}
 		else if( !m_bShootZombiesInChest && pTarget->Classify() == CLASS_ZOMBIE )
 		{
-			if( flTimeSinceLastMiss > 0.0f && flTimeSinceLastMiss < 4.0f && hl2_episodic.GetBool() )
+			if (flTimeSinceLastMiss > 0.0f && flTimeSinceLastMiss < 4.0f && mod_running.GetInt())
 			{
 				vecTarget = pTarget->BodyTarget( GetBulletOrigin(), false );
 			}

@@ -21,6 +21,8 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
+extern ConVar mod_running;
+
 struct creditname_t
 {
 	char szCreditName[256];
@@ -422,7 +424,7 @@ void CHudCredits::DrawLogo( void )
 	{
 		Q_snprintf( szLogoFont, sizeof( szLogoFont ), "WeaponIcons_Small" );
 	}
-	else if ( hl2_episodic.GetBool() )
+	else if (mod_running.GetInt())
 	{
 		Q_snprintf( szLogoFont, sizeof( szLogoFont ), "ClientTitleFont" );
 	}

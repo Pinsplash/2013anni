@@ -40,6 +40,8 @@ ConVar xbox_throttlespoof("xbox_throttlespoof", "200", FCVAR_ARCHIVE );
 ConVar xbox_autothrottle("xbox_autothrottle", "1", FCVAR_ARCHIVE );
 ConVar xbox_steering_deadzone( "xbox_steering_deadzone", "0.0" );
 
+extern ConVar mod_running;
+
 // remaps an angular variable to a 3 band function:
 // 0 <= t < start :		f(t) = 0
 // start <= t <= end :	f(t) = end * spline(( t-start) / (end-start) )  // s curve between clamped and linear
@@ -665,7 +667,7 @@ int CFourWheelVehiclePhysics::DrawDebugTextOverlays( int nOffset )
 void CFourWheelVehiclePhysics::PlaceWheelDust( int wheelIndex, bool ignoreSpeed )
 {
 	// New vehicles handle this deeper into the base class
-	if ( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 		return;
 
 	// Old dust

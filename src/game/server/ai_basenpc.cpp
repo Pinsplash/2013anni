@@ -3008,7 +3008,7 @@ void CAI_BaseNPC::RunAnimation( void )
 			//But here it doesn't and not setting it causes any animation set through here to be stomped by the 
 			//ideal sequence before it has a chance of playing out (since there's code that reselects the ideal 
 			//sequence if it doesn't match the current one).
-			if ( hl2_episodic.GetBool() )
+			if (mod_running.GetInt())
 			{
 				m_nIdealSequence = iSequence;
 			}
@@ -12607,9 +12607,9 @@ bool CAI_BaseNPC::IsCoverPosition( const Vector &vecThreat, const Vector &vecPos
 
 	AI_TraceLOS( vecThreat, vecPosition, this, &tr, &filter );
 
-	if( tr.fraction != 1.0 && hl2_episodic.GetBool() )
+	if (tr.fraction != 1.0 && mod_running.GetInt())
 	{
-		if( tr.m_pEnt->m_iClassname == m_iClassname )
+		if (tr.m_pEnt->m_iClassname == m_iClassname)
 		{
 			// Don't hide behind buddies!
 			return false;

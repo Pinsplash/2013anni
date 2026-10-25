@@ -38,11 +38,7 @@
 
 #endif
 
-#ifdef HL2_EPISODIC
-ConVar hl2_episodic( "hl2_episodic", "1", FCVAR_REPLICATED );
-#else
-ConVar hl2_episodic( "hl2_episodic", "0", FCVAR_REPLICATED );
-#endif//HL2_EPISODIC
+ConVar mod_running("mod_running", "0");
 
 #ifdef PORTAL
 	#include "prop_portal_shared.h"

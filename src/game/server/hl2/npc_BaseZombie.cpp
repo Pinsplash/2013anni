@@ -53,6 +53,8 @@
 
 extern ConVar sk_npc_head;
 
+extern ConVar mod_running;
+
 #define ZOMBIE_BULLET_DAMAGE_SCALE 0.5f
 
 int g_interactionZombieMeleeWarning;
@@ -370,7 +372,7 @@ bool CNPC_BaseZombie::FindNearestPhysicsObject( int iMaxMass )
 		if ( !FVisible( pList[i] ) )
 			continue;
 
-		if ( hl2_episodic.GetBool() )
+		if (mod_running.GetInt())
 		{
 			// Skip things that the enemy can't see. Do we want this as a general thing? 
 			// The case for this feature is that zombies who are pursuing the player will
@@ -734,7 +736,7 @@ bool CNPC_BaseZombie::ShouldBecomeTorso( const CTakeDamageInfo &info, float flDa
 		return true;
 	}
 
-	if ( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		// Always split after a cannon hit
 		if ( info.GetAmmoType() == GetAmmoDef()->Index("CombineHeavyCannon") )
@@ -909,7 +911,7 @@ int CNPC_BaseZombie::OnTakeDamage_Alive( const CTakeDamageInfo &inputInfo )
 				}
 
 				// For Combine cannon impacts
-				if ( hl2_episodic.GetBool() )
+				if (mod_running.GetInt())
 				{
 					if ( bHitByCombineCannon )
 					{
@@ -1733,7 +1735,7 @@ void CNPC_BaseZombie::StartTouch( CBaseEntity *pOther )
 {
 	BaseClass::StartTouch( pOther );
 
-	if( IsSlumped() && hl2_episodic.GetBool() )
+	if (IsSlumped() && mod_running.GetInt())
 	{
 		if( FClassnameIs( pOther, "prop_physics" ) )
 		{
@@ -1928,7 +1930,7 @@ int CNPC_BaseZombie::SelectSchedule ( void )
 //---------------------------------------------------------
 bool CNPC_BaseZombie::IsSlumped( void )
 {
-	if( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		if( m_ActBusyBehavior.IsInsideActBusy() && !m_ActBusyBehavior.IsStopBusying() )
 		{

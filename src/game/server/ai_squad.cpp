@@ -14,6 +14,8 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
+extern ConVar mod_running;
+
 //-----------------------------------------------------------------------------
 
 CAI_SquadManager g_AI_SquadManager;
@@ -501,7 +503,7 @@ void CAI_Squad::SquadNewEnemy( CBaseEntity *pEnemy )
 				   gpGlobals->curtime - pMember->GetEnemyLastTimeSeen() > 3.0 ) )
 			{
 				// give them a new enemy
-				if( !hl2_episodic.GetBool() || pMember->IsValidEnemy(pEnemy) )
+				if (!mod_running.GetInt() || pMember->IsValidEnemy(pEnemy))
 				{
 					pMember->SetEnemy( pEnemy );
 				}

@@ -97,6 +97,8 @@ bool CBaseEntity::s_bAbsQueriesValid = true;
 
 ConVar sv_netvisdist( "sv_netvisdist", "10000", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY, "Test networking visibility distance" );
 
+extern ConVar mod_running;
+
 // This table encodes edict data.
 void SendProxy_AnimTime( const SendProp *pProp, const void *pStruct, const void *pVarData, DVariant *pOut, int iElement, int objectID )
 {
@@ -6327,7 +6329,7 @@ void CBaseEntity::ModifyOrAppendCriteria( AI_CriteriaSet& set )
 	// Append anything from I/O or keyvalues pairs
 	AppendContextToCriteria( set );
 
-	if( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		set.AppendCriteria( "episodic", "1" );
 	}

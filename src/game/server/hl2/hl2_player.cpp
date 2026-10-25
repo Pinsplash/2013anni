@@ -163,12 +163,7 @@ bool Flashlight_UseLegacyVersion( void )
 	// If this is the first run through, cache off what the answer should be (cannot change during a session)
 	if ( g_bCacheLegacyFlashlightStatus )
 	{
-		char modDir[MAX_PATH];
-		if ( UTIL_GetModDir( modDir, sizeof(modDir) ) == false )
-			return false;
-
-		g_bUseLegacyFlashlight = !Q_strcmp(modDir, "mod_hl2") || !Q_strcmp(modDir, "mod_episodic");
-
+		g_bUseLegacyFlashlight = mod_running.GetInt() != 2;
 		g_bCacheLegacyFlashlightStatus = false;
 	}
 
@@ -2377,7 +2372,7 @@ int CHL2_Player::OnTakeDamage_Alive( const CTakeDamageInfo &info )
 	}
 
 
-	if( (info.GetDamageType() & DMG_SLASH) && hl2_episodic.GetBool() )
+	if ((info.GetDamageType() & DMG_SLASH) && mod_running.GetInt())
 	{
 		if( m_afPhysicsFlags & PFLAG_USING )
 		{
@@ -3165,7 +3160,7 @@ void CHL2_Player::ForceDropOfCarriedPhysObjects( CBaseEntity *pOnlyIfHoldingThis
 	}
 
 #ifdef HL2_EPISODIC
-	if ( hl2_episodic.GetBool() )
+	if (mod_running.GetInt())
 	{
 		CBaseEntity *pHeldEntity = PhysCannonGetHeldEntity( GetActiveWeapon() );
 		if( pHeldEntity && pHeldEntity->ClassMatches( "grenade_helicopter" ) )

@@ -14,6 +14,8 @@
 
 ConVar ai_debug_assault("ai_debug_assault", "0");
 
+extern ConVar mod_running;
+
 BEGIN_DATADESC( CRallyPoint )
 	DEFINE_KEYFIELD( m_AssaultPointName, FIELD_STRING, "assaultpoint" ),
 	DEFINE_KEYFIELD( m_RallySequenceName, FIELD_STRING, "rallysequence" ),
@@ -405,13 +407,13 @@ void CAI_AssaultBehavior::GatherConditions( void )
 	//		b) Is flagged to Clear On Arrival,
 	// then hit and clear the assault point (fire all entity I/O) and move on to the next one without
 	// interrupting the NPC's schedule. This provides a more fluid movement from point to point.
-	if( IsCurSchedule( SCHED_MOVE_TO_ASSAULT_POINT ) && hl2_episodic.GetBool() )
+	if (IsCurSchedule( SCHED_MOVE_TO_ASSAULT_POINT ) && mod_running.GetInt())
 	{
-		if( m_hAssaultPoint && m_hAssaultPoint->HasSpawnFlags(SF_ASSAULTPOINT_CLEARONARRIVAL) && m_hAssaultPoint->m_NextAssaultPointName != NULL_STRING )
+		if (m_hAssaultPoint && m_hAssaultPoint->HasSpawnFlags(SF_ASSAULTPOINT_CLEARONARRIVAL) && m_hAssaultPoint->m_NextAssaultPointName != NULL_STRING)
 		{
-			float flDist = GetAbsOrigin().DistTo( m_hAssaultPoint->GetAbsOrigin() );
+			float flDist = GetAbsOrigin().DistTo(m_hAssaultPoint->GetAbsOrigin());
 
-			if( flDist <= GetOuter()->GetMotor()->MinStoppingDist() )
+			if (flDist <= GetOuter()->GetMotor()->MinStoppingDist())
 			{
 				OnHitAssaultPoint();
 				ClearAssaultPoint();
@@ -419,7 +421,7 @@ void CAI_AssaultBehavior::GatherConditions( void )
 				AI_NavGoal_t goal( m_hAssaultPoint->GetAbsOrigin() );
 				goal.pTarget = m_hAssaultPoint;
 				
-				if ( GetNavigator()->SetGoal( goal ) == false )
+				if (GetNavigator()->SetGoal( goal ) == false)
 				{
 					TaskFail( "Can't refresh assault path" );
 				}
@@ -1202,10 +1204,10 @@ void CAI_AssaultBehavior::EndScheduleSelection()
 
 	if( m_hRallyPoint != NULL )
 	{
-		if( !m_hRallyPoint->IsExclusive() )
+		if (!m_hRallyPoint->IsExclusive())
 			m_bHitRallyPoint = false;
 
-		if( !hl2_episodic.GetBool() || !m_hRallyPoint->IsExclusive() || !GetOuter()->IsAlive() )
+		if (!mod_running.GetInt() || !m_hRallyPoint->IsExclusive() || !GetOuter()->IsAlive())
 		{
 			// Here we unlock the rally point if it is NOT EXCLUSIVE
 			// -OR- the Outer is DEAD. (This gives us a head-start on 

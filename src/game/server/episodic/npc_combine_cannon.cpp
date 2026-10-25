@@ -29,6 +29,8 @@ extern const char* g_pModelNameLaser;
 
 int gHaloTexture = 0;
 
+extern ConVar mod_running;
+
 //-----------------------------------------------------------------------------
 //
 // Combine Cannon
@@ -1066,7 +1068,7 @@ Vector CNPC_Combine_Cannon::DesiredBodyTarget( CBaseEntity *pTarget )
 		}
 		else if( pTarget->Classify() == CLASS_ZOMBIE )
 		{
-			if( flTimeSinceLastMiss > 0.0f && flTimeSinceLastMiss < 4.0f && hl2_episodic.GetBool() )
+			if (flTimeSinceLastMiss > 0.0f && flTimeSinceLastMiss < 4.0f && mod_running.GetInt())
 			{
 				vecTarget = pTarget->BodyTarget( GetBulletOrigin(), false );
 			}

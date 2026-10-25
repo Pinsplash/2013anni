@@ -791,8 +791,8 @@ void CPropJeep::Think( void )
 				g_EventQueue.AddEvent( this, "ShowHudHint", 1.5f, this, this );
 			}
 		}
-		
-		if ( hl2_episodic.GetBool() )
+
+		if (mod_running.GetInt())
 		{
 			// Set its running animation idle
 			if ( m_bEnterAnimOn )
@@ -810,7 +810,7 @@ void CPropJeep::Think( void )
 		}
 
 		// If we're exiting and have had the tau cannon removed, we don't want to reset the animation
-		if ( hl2_episodic.GetBool() )
+		if (mod_running.GetInt())
 		{
 			// Reset on exit anim
 			GetServerVehicle()->HandleEntryExitFinish( m_bExitAnimOn, m_bExitAnimOn );

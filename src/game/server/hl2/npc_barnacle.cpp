@@ -379,7 +379,7 @@ int	CNPC_Barnacle::OnTakeDamage_Alive( const CTakeDamageInfo &inputInfo )
 		SetActivity( ACT_SMALL_FLINCH );
 	}
 
-	if( hl2_episodic.GetBool() && info.GetAttacker() && info.GetAttacker()->Classify() == CLASS_PLAYER_ALLY_VITAL )
+	if (mod_running.GetInt() && info.GetAttacker() && info.GetAttacker()->Classify() == CLASS_PLAYER_ALLY_VITAL)
 	{
 		if( FClassnameIs( info.GetAttacker(), "npc_alyx" ) )
 		{
@@ -1049,7 +1049,7 @@ void CNPC_Barnacle::LiftRagdoll( float flBiteZOffset )
   		if ( GetEnemy()->Classify() == CLASS_ZOMBIE )
 		{
 			// lifted the prey high enough to see it's a zombie. Spit it out.
-			if ( hl2_episodic.GetBool() )
+			if (mod_running.GetInt())
 			{
 				m_bLiftingPrey = false;
 				SetActivity( (Activity)ACT_BARNACLE_BITE_SMALL_THINGS );
@@ -1145,7 +1145,7 @@ void CNPC_Barnacle::LiftPhysicsObject( float flBiteZOffset )
 		// If we got a physics prop, wait until the thing has settled down
 		m_bLiftingPrey = false;
 
-		if ( hl2_episodic.GetBool() )
+		if (mod_running.GetInt())
 		{
 			CBounceBomb *pBounce = dynamic_cast<CBounceBomb *>( pVictim );
 

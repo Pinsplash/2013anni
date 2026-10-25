@@ -894,7 +894,7 @@ void CNPC_Citizen::GatherConditions()
 {
 	BaseClass::GatherConditions();
 
-	if( IsInPlayerSquad() && hl2_episodic.GetBool() )
+	if (IsInPlayerSquad() && mod_running.GetInt())
 	{
 		// Leave the player squad if someone has made me neutral to player.
 		if( IRelationType(UTIL_GetLocalPlayer()) == D_NU )
@@ -2553,7 +2553,7 @@ void CNPC_Citizen::MoveOrder( const Vector &vecDest, CAI_BaseNPC **Allies, int n
 	if ( !AI_IsSinglePlayer() )
 		return;
 
-	if( hl2_episodic.GetBool() && m_iszDenyCommandConcept != NULL_STRING )
+	if (mod_running.GetInt() && m_iszDenyCommandConcept != NULL_STRING)
 	{
 		SpeakCommandResponse( STRING(m_iszDenyCommandConcept) );
 		return;
@@ -3396,7 +3396,7 @@ bool CNPC_Citizen::CanHeal()
 	if ( !IsMedic() && !IsAmmoResupplier() )
 		return false;
 
-	if( !hl2_episodic.GetBool() )
+	if (!mod_running.GetInt())
 	{
 		// If I'm not armed, my priority should be to arm myself.
 		if ( IsMedic() && !GetActiveWeapon() )
