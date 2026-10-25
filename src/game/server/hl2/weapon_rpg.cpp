@@ -43,6 +43,7 @@
 
 static ConVar sk_apc_missile_damage("sk_apc_missile_damage", "15");
 ConVar rpg_missle_use_custom_detonators( "rpg_missle_use_custom_detonators", "1" );
+ConVar ai_rpg_clearshotfix("ai_rpg_clearshotfix", "1");
 
 #define APC_MISSILE_DAMAGE	sk_apc_missile_damage.GetFloat()
 
@@ -2041,10 +2042,30 @@ bool CWeaponRPG::WeaponLOSCondition( const Vector &ownerPos, const Vector &targe
 			Vector vecShootDir = npcOwner->GetActualShootTrajectory( vecMuzzle );
 
 			// Make sure I have a good 10 feet of wide clearance in front, or I'll blow my teeth out.
-			AI_TraceHull( vecMuzzle, vecMuzzle + vecShootDir * (10.0f*12.0f), Vector( -24, -24, -24 ), Vector( 24, 24, 24 ), MASK_NPCSOLID, NULL, &tr );
+			//Original trace was not set up to pass through the shooter, resulting in the shooter usually blocking its own shot.
+			//This makes a significant difference on d3_c17_12 because citizens actually help out.
+			if (ai_rpg_clearshotfix.GetBool())
+				AI_TraceHull(vecMuzzle, vecMuzzle + vecShootDir * (10.0f * 12.0f), Vector(-24, -24, -24), Vector(24, 24, 24), MASK_NPCSOLID, npcOwner, COLLISION_GROUP_NONE, &tr);
+			else
+				AI_TraceHull(vecMuzzle, vecMuzzle + vecShootDir * (10.0f * 12.0f), Vector(-24, -24, -24), Vector(24, 24, 24), MASK_NPCSOLID, NULL, &tr);
 
-			if( tr.fraction != 1.0f )
+			if (tr.fraction != 1.0f)
+			{
+				/*
+				NDebugOverlay::Box(tr.startpos, Vector(-24, -24, -24), Vector(24, 24, 24), 255, 255, 0, 1, 1);
+				NDebugOverlay::Box(tr.endpos, Vector(-24, -24, -24), Vector(24, 24, 24), 255, 255, 0, 1, 1);
+				NDebugOverlay::Line(tr.startpos, tr.endpos, 255, 255, 0, false, 1);
+				*/
 				bResult = false;
+			}
+			else
+			{
+				/*
+				NDebugOverlay::Box(tr.startpos, Vector(-24, -24, -24), Vector(24, 24, 24), 0, 0, 255, 10, 1);
+				NDebugOverlay::Box(tr.endpos, Vector(-24, -24, -24), Vector(24, 24, 24), 0, 0, 255, 10, 1);
+				NDebugOverlay::Line(tr.startpos, tr.endpos, 0, 0, 255, false, 1);
+				*/
+			}
 		}
 	}
 
@@ -2091,11 +2112,29 @@ int CWeaponRPG::WeaponRangeAttack1Condition( float flDot, float flDist )
 		Vector vecShootDir = pOwner->GetActualShootTrajectory( vecMuzzle );
 
 		// Make sure I have a good 10 feet of wide clearance in front, or I'll blow my teeth out.
-		AI_TraceHull( vecMuzzle, vecMuzzle + vecShootDir * (10.0f*12.0f), Vector( -24, -24, -24 ), Vector( 24, 24, 24 ), MASK_NPCSOLID, NULL, &tr );
+		//Original trace was not set up to pass through the shooter, resulting in the shooter usually blocking its own shot.
+		//This makes a significant difference on d3_c17_12 because citizens actually help out.
+		if (ai_rpg_clearshotfix.GetBool())
+			AI_TraceHull(vecMuzzle, vecMuzzle + vecShootDir * (10.0f * 12.0f), Vector(-24, -24, -24), Vector(24, 24, 24), MASK_NPCSOLID, pOwner, COLLISION_GROUP_NONE, &tr);
+		else
+			AI_TraceHull(vecMuzzle, vecMuzzle + vecShootDir * (10.0f * 12.0f), Vector(-24, -24, -24), Vector(24, 24, 24), MASK_NPCSOLID, NULL, &tr);
 
-		if( tr.fraction != 1.0 )
+		if (tr.fraction != 1.0)
 		{
+			/*
+			NDebugOverlay::Box(tr.startpos, Vector(-24, -24, -24), Vector(24, 24, 24), 255, 0, 0, 1, 1);
+			NDebugOverlay::Box(tr.endpos, Vector(-24, -24, -24), Vector(24, 24, 24), 255, 0, 0, 1, 1);
+			NDebugOverlay::Line(tr.startpos, tr.endpos, 255, 0, 0, false, 1);
+			*/
 			return COND_WEAPON_SIGHT_OCCLUDED;
+		}
+		else
+		{
+			/*
+			NDebugOverlay::Box(tr.startpos, Vector(-24, -24, -24), Vector(24, 24, 24), 0, 255, 0, 10, 1);
+			NDebugOverlay::Box(tr.endpos, Vector(-24, -24, -24), Vector(24, 24, 24), 0, 255, 0, 10, 1);
+			NDebugOverlay::Line(tr.startpos, tr.endpos, 0, 255, 0, false, 1);
+			*/
 		}
 	}
 
