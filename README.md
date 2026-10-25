@@ -15,8 +15,8 @@ Things to know:
   * Fixed dropship container gun not turning.
   * Fixed screen flashing from all damage after being hit by `DMG_ACID` damage once.
   * Replaced `hl2_episodic` convar with a new one called `mod_running` which tells precisely which mod is being run. See `CServerGameDLL::DLLInit` to understand how it works.
+  * Fixed RPG AI trace bug. (Controlled by convar `ai_rpg_clearshotfix`.)
 * Planned additions:
-  * Fix RPG AI trace bug. (Convar)
   * Allow holding jump button. (Convar)
   * Per-map CFG files like in TF2.
   * Consolidate HL2/Episodic into one project.
