@@ -14,7 +14,7 @@ Things to know:
 * The following additional patches have been applied:
   * Fixed dropship container gun not turning.
   * Fixed screen flashing from all damage after being hit by `DMG_ACID` damage once.
-  * Replaced `hl2_episodic` convar with a new one called `mod_running` which tells precisely which mod is being run.
+  * Replaced `hl2_episodic` convar with a new one called `mod_running` which tells precisely which mod is being run. See `CServerGameDLL::DLLInit` to understand how it works.
 * Planned additions:
   * Fix RPG AI trace bug. (Convar)
   * Allow holding jump button. (Convar)
