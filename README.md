@@ -17,5 +17,6 @@ Things to know:
   * Replaced `hl2_episodic` convar with a new one called `mod_running` which tells precisely which mod is being run.
 * Planned additions:
   * Fix RPG AI trace bug. (Convar)
+  * Allow holding jump button. (Convar)
   * Per-map CFG files like in TF2.
   * Consolidate HL2/Episodic into one project.
