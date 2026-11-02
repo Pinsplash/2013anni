@@ -8,7 +8,7 @@ Things to know:
 * Some behavior depends on the mod folder name. Look for references to `mod_hl2`, `mod_episodic`, and `mod_ep2` in the `CServerGameDLL::DLLInit` function, the `gTitleComments` array, the localization files in the `resource` folders, `titles.txt` in the `scripts` folders, the `gameinfo.txt` files for the ep1 and 2 mods, and of course the VPC files.
   * The error "Unknown -game parameter" will appear if the mod names are not updated in `CServerGameDLL::DLLInit`.
 * The Episode One mod expects the base HL2 mod to be installed, and the Episode Two mod expects the Ep1 and HL2 mods to be installed. (In the same `sourcemods` folder.)
-* The hack requires that `serverevents.res`, `chapterbackgrounds.txt`, and the background menu textures are kept in the mod folder. There will be problems if they are removed.
+* The hack requires that `chapterbackgrounds.txt` and the background menu textures are kept in the mod folder. There will be problems if they are removed.
 * Use of non-engine tools like Hammer or HLMV is not common for this type of mod, but if it is desired, you must edit gameinfo.txt. See gameinfo.txt for more info.
 * The Episodic project is still used for both Episodes. To make it open Episode One, `-game` has to be a path to the `mod_episodic` folder, and vice versa for `mod_ep2`.
 * The following additional patches have been applied:
